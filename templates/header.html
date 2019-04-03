@@ -1,0 +1,31 @@
+{% load static from staticfiles %}
+<html lang="en">
+<head>
+    {% block head%}
+    <meta charset="UTF-8">
+    <title>{% block title%}header{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css.css' %}">
+    {% endblock %}
+</head>
+<body>
+    {% if request.user.is_authenticated %}
+     <div class="navbar">
+         <a href="../../customapp/index">HOME</a>
+         <a href="../../../customapp/profile">PROFILE:  {{user.username}}</a>
+         <a href="../../../customapp/student">Student</a>
+         <a href="../../../customapp/teacher">Teacher</a>
+         <a href="../../../customapp/detail">Detail</a>
+         <a href="../../customapp/about">about</a>
+         <a href="../../../../customapp/logout">LOGOUT</a>
+     {% else %}
+         <div class="withoutheader">
+            </div>
+     {% endif %}
+    </div>
+    {% block content %}
+    {% endblock %}
+    <div class="footer">
+
+    </div>
+</body>
+</html>

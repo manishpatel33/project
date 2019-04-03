@@ -1,0 +1,251 @@
+{% extends 'header.html' %}
+{% load static from staticfiles %}
+{% block title%}profile{% endblock %}
+{% block content %}
+    <div>
+        <h1 align="center">This is Profile Page</h1>
+        <a href="../../customapp/changepass">Password change</a>
+        <a href="../../customapp/showfollower/{{user.id}}">Find_Follower</a>
+        <a href="../../customapp/twit/{{user.id}}">Do_Twit</a>
+        <a href="../../customapp/selftwit/{{user.id}}">Show_My_twit</a>
+        <a href="../../customapp/showtwit/{{user.id}}">Show_Follower_Twit</a>
+        <a href="../../customapp/requestuser/{{user.id}}">Show_Follower_request</a>
+        <a href="../../customapp/creategroup/{{user.id}}">Create_Group</a>
+        <a href="../../../customapp/showgroup/{{user.id}}">Show_Group</a>
+        <a href="../../customapp/showmsg/{{user.id}}">Show_msg</a>
+        <a href="../../../customapp/groupmessage12/{{user.id}}">Group_msg</a>
+        <a href="../../../customapp/showgmsg/{{user.id}}">Show_group_msg</a>
+    </div>
+    <div class="body">
+        {%if ufollow or t1 or list_id%} <!-- show find_follower list -->
+            <table align="center" border="1" cellspacing="0" cellpadding="2">
+                {%for i in ufollow%}
+                    {%for j in t1%}
+                        {%if i.id == j.follower_id%}
+                            <tr>
+                                <td>{{i.id}}</td>
+                                <td>{{i.username}}</td>
+                                <td>{{i.email}}</td>
+                                <td><a href="../followerdetail/{{i.id}}">detail</a></td>
+                            </tr>
+                        {%endif%}
+                    {%endfor%}
+                    {%if i.id not in list_id%}
+                        <tr>
+                            <td>{{i.id}}</td>
+                            <td>{{i.username}}</td>
+                            <td>{{i.email}}</td>
+                             <td><a href="../userfollow/{{i.id}}">send_request</a></td>
+                        </tr>
+                    {%endif%}
+                {%endfor%}
+            </table>
+        {%elif record or list3 or list4%}  <!-- show follower twit list -->
+            <table align="center" border="1" cellspacing="0" cellpadding="2">
+            {%for i in record%}
+                {%if i.id in list3 and i.id not in list4%}
+                    <tr>
+                        <td>{{i.id}}</td>
+                        <td>{{i.Name}}</td>
+                        <td>{{i.Twit}}</td>
+                        <td><a href="../usercomment/{{i.Twit}}">Comment</a></td>
+                    </tr>
+                {%elif i.user_id in list2%}
+                    {%for j in record %}
+                        {%if j.id == i.referenced_id and j.user_id in list2 and j.referenced_id in list4%}
+                            <tr><td>{{i.id}}</td>
+                                <td>{{i.Name}}</td>
+                                <td>{{i.Twit}}</td>
+                                <td><a href="../usercomment/{{i.Twit}}">Comment</a></td>
+                            </tr>
+                        {%endif%}
+                    {%endfor%}
+                {%endif%}
+            {%endfor%}
+            </table>
+        {%elif user1  or tweet1 or tweet2%} <!-- show particular follower detail -->
+            {%if user1%}
+                <table align="center" border="1" cellspacing="0" cellpadding="2">
+                    <tr><td colspan="4" align="center">Follower Info.</td></tr>
+                    {%for i in user1%}
+                        {%if i.id == id%}
+                            <tr>
+                                <td>{{i.id}}</td>
+                                <td>{{i.username}}</td>
+                                <td>{{i.email}}</td>
+                                <td><a href="../userunfollow/{{user1.id}}">Unfollow</a></td>
+                            </tr>
+                        {%endif%}
+                    {%endfor%}
+                </table>
+            {%endif%}
+            {%if tweet1 or tweet2 or id%}
+                <table align="center" border="1" class="center" cellspacing="0" cellpadding="2">
+                    <tr><td colspan="4" align="center">Follower Twit.</td></tr>
+                    {%for i in tweet1%}
+                        {%for j in tweet2%}
+                            {%if i.referenced_id == j.id%}
+                                <tr>
+                                    <td>{{j.id}}</td>
+                                    <td>{{j.Name}}</td>
+                                    <td>{{j.Twit}}</td>
+                                    <td><a href="../usercomment/{{j.Twit}}">Comment</a></td>
+                                </tr>
+                                <tr>
+                                    <td>{{i.id}}</td>
+                                    <td>{{i.Name}}</td>
+                                    <td>{{i.Twit}}</td>
+                                    <td><a href="../usercomment/{{i.Twit}}">Comment</a></td>
+                                </tr>
+                            {%elif i.id == j.referenced_id%}
+                                 <tr>
+                                    <td>{{j.id}}</td>
+                                    <td>{{j.Name}}</td>
+                                    <td>{{j.Twit}}</td>
+                                    <td><a href="../usercomment/{{i.Twit}}">Comment</a></td>
+                                </tr>
+                            {%endif%}
+                        {%endfor%}
+                        {%if i.referenced_id == 0%}
+                                <tr>
+                                    <td>{{i.id}}</td>
+                                    <td>{{i.Name}}</td>
+                                    <td>{{i.Twit}}</td>
+                                    <td><a href="../usercomment/{{i.Twit}}">Comment</a></td>
+                                </tr>
+                        {%endif%}
+                    {%endfor%}
+                </table>
+            {%endif%}
+            {%if user1 or list_follow%}
+                <table align="center" border="1" class="center" cellspacing="0" cellpadding="2">
+                    <tr><td colspan="4" align="center">Follower of Follower.</td></tr>
+                    {%for i in user1%}
+                        {%if i.id in list_follow and list_following%}
+                            <tr>
+                                <td>{{i.id}}</td>
+                                <td>{{i.username}}</td>
+                                <td>{{i.email}}</td>
+                                <td><a href="../followerdetail/{{i.id}}">detail</a></td>
+                            </tr>
+                        {%elif i.id in list_follow%}
+                            <tr>
+                                <td>{{i.id}}</td>
+                                <td>{{i.username}}</td>
+                                <td>{{i.email}}</td>
+                                <td><a href="../userfollow/{{i.id}}">send_request</a></td>
+                            </tr>
+                        {%endif%}
+                    {%endfor%}
+                </table>
+            {%endif%}
+        {%elif r1 or msg%} <!-- show request from user -->
+            <table align="center" border="1" cellspacing="0" cellpadding="2">
+                {%if r1%}
+                    {%for i in r1%}
+                        <tr>
+                            <td>{{i.requested_id}}</td>
+                            <td>{{i.Name}}</td>
+                            <td>{{i.Email}}</td>
+                            <td><a href="../requestapprove/{{i.user_id}}">follow</a></td>
+                        </tr>
+                    {%endfor%}
+                {%elif msg%}
+                  <tr><td>{{msg}}</td></tr>
+                {%endif%}
+            </table>
+        {%elif self2%}       <!-- show personal Twit -->
+            <table align="center" border="1" cellspacing="0" cellpadding="2">
+                {%for i in self2%}
+                    {%if i.user_id == request.user.id and i.referenced_id == 0%}
+                        <tr>
+                            <td>{{i.user_id}}</td>
+                            <td>{{i.Name}}</td>
+                            <td>{{i.Twit}}</td>
+                        </tr>
+                    {%else %}
+                        {%for j in self2%}
+                            {%if j.id == i.referenced_id and i.user_id == request.user.id %}
+                                <tr>
+                                    <td>{{j.user_id}}</td>
+                                    <td>{{j.Name}}</td>
+                                    <td>{{j.Twit}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{i.user_id}}</td>
+                                    <td>{{i.Name}}</td>
+                                    <td>{{i.Twit}}</td>
+                                </tr>
+                                {%for k in self2%}
+                                    {%if k.referenced_id == i.id%}
+                                        <tr>
+                                            <td>{{k.user_id}}</td>
+                                            <td>{{k.Name}}</td>
+                                            <td>{{k.Twit}}</td>
+                                        </tr>
+                                    {%endif%}
+                                {%endfor%}
+                            {%endif%}
+                        {%endfor%}
+                    {%endif%}
+                {%endfor%}
+            </table>
+        {%elif group%}
+            <table align="center" border="1" cellspacing="0" cellpadding="2">
+                {%if group%}
+                    {%for i in group%}
+                        <tr>
+                            <td>{{i.group_name}}</td>
+                            <td><a href="../add_member/{{i.admin_no}}/{{i.group_name}}">ADD</a></td>
+                        </tr>
+                    {%endfor%}
+                {%else%}
+                    <tr><td>No group Created</td></tr>
+                {%endif%}
+            </table>
+        {%elif user_group or group_name%}
+            <table align="center" border="1" cellspacing="0" cellpadding="2">
+                {%if user_group%}
+                        <tr><td colspan="4" align="center">{{group_name}}</td></tr>
+                    {%for i in user_group%}
+                        {%if i.id in list_list and i.id not in list_G_M%}
+                            <tr>
+                                <td>{{i.id}}</td>
+                                <td>{{i.username}}</td>
+                                <td>{{i.email}}</td>
+                                <td><a href="../../add_group_member/{{i.id}}/{{group_name}}">ADD</a></td>
+                            </tr>
+                        {%elif i.id in list_list%}
+                            <tr>
+                                <td>{{i.id}}</td>
+                                <td>{{i.username}}</td>
+                                <td>{{i.email}}</td>
+                                <td><a href="../../message/{{i.id}}">msg</a></td>
+                            </tr>
+                        {%endif%}
+                    {%endfor%}
+                {%else%}
+                    <tr><td>No Follower</td></tr>
+                {%endif%}
+            </table>
+        {%elif sm%}
+            <table align="center" border="1" cellspacing="0" cellpadding="2">
+                {%for i in sm%}
+                    <tr><td>{{i.id}}</td>
+                        <td>{{i.user_id}}</td>
+                        <td>{{i.message}}</td></tr>
+                {%endfor%}
+            </table>
+        {%elif g_msg or mem_list or mem_list2%}
+            <table align="center" border="1" cellspacing="0" cellpadding="2">
+                {%for i in g_msg%}
+                    {%if i.user_id in mem_list or i.user_id in mem_list2%}
+                        <tr><td>{{i.id}}</td>
+                            <td>{{i.message}}</td>
+                            <td>{{i.user_id}}</td></tr>
+                    {%endif%}
+                {%endfor%}
+            </table>
+        {%endif%}
+    </div>
+{% endblock %}

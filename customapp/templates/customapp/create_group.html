@@ -1,0 +1,20 @@
+{% extends 'header.html' %}
+{% load static from staticfiles %}
+{% block title%}profile{% endblock %}
+{% block content %}
+<div class="center">
+    <h1 align="center">This is Create-Group Page</h1>
+    <table align="center">
+        <tr>
+            <td>
+                <form method="POST">
+                    {% csrf_token %}
+                    Group Name:
+                    <input type="text" placeholder="Enter Group Name" name="gn" required><br><br>
+                    <button type="submit">Create_group</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+{% endblock %}

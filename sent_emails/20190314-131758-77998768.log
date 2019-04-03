@@ -1,0 +1,11 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Password reset on 127.0.0.1:8000
+From: webmaster@localhost
+To: patel1@gmail.com
+Date: Thu, 14 Mar 2019 07:47:58 -0000
+Message-ID: <155254967821.11936.6843723193604267346@as-PC>
+
+http://127.0.0.1:8000/customapp/password_reset_confirm/<my_uuid>
+-------------------------------------------------------------------------------

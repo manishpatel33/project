@@ -1,0 +1,20 @@
+{% extends 'header.html' %}
+{% load static from staticfiles %}
+{% block title%}profile{% endblock %}
+{% block content %}
+    <div class="center">
+        <h1 align="center">This is message Page</h1>
+        <table align="center">
+            <tr>
+                <td>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                         Comment:
+                         <input type="text" placeholder="Enter message" name="msg" required><br><br>
+                         <button type="submit">Comment</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}

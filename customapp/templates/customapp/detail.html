@@ -1,0 +1,119 @@
+{% extends 'header.html' %}
+{% load static from staticfiles %}
+{% block content %}
+    <div class="center">
+
+    </div>
+    <div class="center">
+        {%if display_detail or display_detail1 or u1 or u3 or u6 or t1%}
+            <h1 align="center">This is Record Page</h1>
+            For Student Info.<a href="../../../customapp/showdata/{{1}}">Student</a><br>
+            For Teacher Info.<a href="../../../customapp/showdata/{{2}}">Teacher</a>
+            <table align="center" border="1" cellspacing="0" cellpadding="2">
+                {% if display_detail %}    <!-- students display data -->
+                    {% for Student in  display_detail %}
+                        <tr>
+                    <td>{{ Student.id }}</td>
+                    <td>{{ Student.Name }}</td>
+                    <td>{{ Student.Email }}</td>
+                    <td>{{ Student.branch}}</td>
+                    <td><a href="../updatestudent/{{Student.id}}">update</a></td>
+                    <td><a href="../studetails/{{Student.id}}">details</a></td>
+                    <td><a href="../follow/{{Student.id}}">Find_teacher</a></td>
+                    <td><a href="../deletestudent/{{Student.id}}">delete</a></td>
+                </tr>
+                    {% endfor %}
+                {% elif display_detail1 or msg_123%}    <!-- teacher display data -->
+                    {% for Teacher in  display_detail1 %}
+                    <tr>
+                        <td>{{ Teacher.id }}</td>
+                        <td>{{ Teacher.Name }}</td>
+                        <td>{{ Teacher.Email }}</td>
+                        <td>{{ Teacher.sub}}</td>
+                        <td>{{ Teacher.branch}}</td>
+                        <td><a href="../updateteacher/{{Teacher.id}}">update</a></td>
+                        <td><a href="../deleteteacher/{{Teacher.id}}">delete</a></td>
+                        <td><a href="../teadetails/{{Teacher.id}}">details</a></td>
+                    </tr>
+                    {% endfor %}
+                {% elif u1 or u11 or u111%}    <!-- particular student display data -->
+                    <tr><td>ID: {{ u1.id }}</td></tr>
+                    <tr><td>Name: {{ u1.Name }}</td></tr>
+                    <tr><td>Email: {{ u1.Email }}</td></tr>
+                    <tr><td>Branch: {{ u1.branch}}</td></tr>
+                    {% if u11%}                 <!--student follow teacher display data -->
+                        {%for Teacher in  u11%}
+                             <tr><td>Teacher Name: {{ Teacher.Name }}</td></tr>
+                             <tr><td>Teacher Email: {{ Teacher.Email }}</td></tr>
+                             <tr><td>Teacher sub: {{ Teacher.sub}}</td></tr>
+                            {%if u111%}              <!-- teacher comment on student display data -->
+                                <tr><td>comment:</td></tr>
+                                {%for i in u111%}
+                                    {%if Teacher.teacher_id == i.teacher_id%}
+                                        <tr><td> {{ i.comment }}</td></tr>
+                                    {%endif%}
+                                {%endfor%}
+                            {%endif%}
+                        {% endfor %}
+                    {% endif %}
+                {% elif u6%}     <!-- after finding teacher display data -->
+                     <tr><td>Teacher Name: {{ u6.Name }}</td></tr>
+                     <tr><td>Teacher Email: {{ u6.Email }}</td></tr>
+                     <tr><td>Teacher sub: {{ u6.sub}}</td></tr>
+                {% elif t1 or member_id or student_id%}     <!--student can follow and unfollow display data -->
+                    {% if t1 %}
+                        {%for stu1 in t1%}
+                            {%if stu1.id in member_id %}
+                                <tr><td>{{ stu1.id }}</td>
+                                    <td>{{ stu1.Name }}</td>
+                                    <td>{{ stu1.Email }}</td>
+                                    <td>{{ stu1.sub }}</td>
+                                    <td><a href="../teafollow/{{stu1.id}}/{{student_id}}">follow</a></td>
+                                </tr>
+                            {%else%}
+                                <tr><td>{{ stu1.id }}</td>
+                                    <td>{{ stu1.Name }}</td>
+                                    <td>{{ stu1.Email }}</td>
+                                    <td>{{ stu1.sub }}</td>
+                                    <td><a href="../unfollow/{{stu1.id}}/{{student_id}}">Unfollow</a></td>
+                                </tr>
+                            {%endif%}
+                        {%endfor%}
+                    {% else %}
+                        {%for stu in t1%}
+                            <tr><td>{{ stu.id }}</td>
+                                <td>{{ stu.Name }}</td>
+                                <td>{{ stu.Email }}</td>
+                                <td>{{ stu.sub }}</td>
+                                <td><a href="../teafollow/{{stu.id}}/{{student_id}}">follow</a></td>
+                            </tr>
+                        {%endfor%}
+                    {% endif %}
+                {% elif u3 %}       <!-- particular teacher display data -->
+                    <tr><td>ID: {{ u3.id }}</td></tr>
+                    <tr><td>Name: {{ u3.Name }}</td></tr>
+                    <tr><td>Email: {{ u3.Email }}</td></tr>
+                    <tr><td>Branch: {{ u3.branch}}</td></tr>
+                    <tr><td>Subject: {{ u3.sub}}</td></tr>
+                    {% if u33 or u333%}    <!-- following student display data -->
+                        {% for stu in u33 %}
+                            {% for student in u333%}
+                                {% if stu.student_id ==  student.id%}
+                                    <tr><td>ID: {{ student.id }}</td></tr>
+                                    <tr><td>Name: {{ student.Name }}</td></tr>
+                                    <tr><td>Email: {{ student.Email }}</td></tr>
+                                    <tr><td><a href="../comment/{{u3.id}}/{{student.id}}">comment</a></td></tr>
+                                    <tr><td><a href="../unfollow/{{u3.id}}/{{student.id}}">Unfollow</a></td></tr>
+                                {%endif%}
+                            {%endfor%}
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+            </table>
+        {%else%}
+            <h1 align="center">This is Detail Page</h1>
+            For Student Info.<a href="../../../customapp/showdata/{{1}}">Student</a><br>
+            For Teacher Info.<a href="../../../customapp/showdata/{{2}}">Teacher</a>
+        {%endif%}
+    </div>
+{% endblock %}

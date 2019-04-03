@@ -1,0 +1,23 @@
+{% extends 'header.html' %}
+{% load static from staticfiles %}
+{% block content %}
+    <div class="center">
+        <h1 align="center">This is Change Password Page</h1>
+        <table align="center">
+            <tr>
+                <td>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                         Oldpassword:
+                         <input type="password" placeholder="Enter Oldpassword" name="opsw" required><br><br>
+                         Password:
+                         <input type="password" placeholder="Enter Password" name="psw" required><br><br>
+                         Repassword:
+                         <input type="password" placeholder="Enter Repassword" name="Rpsw" required><br><br>
+                         <button type="submit">Password Change</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}

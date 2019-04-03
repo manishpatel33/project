@@ -1,0 +1,20 @@
+{% extends 'header.html' %}
+{% load static from staticfiles %}
+{% block title%}profile{% endblock %}
+{% block content %}
+    <div class="center">
+        <h1 align="center">This is follow Page</h1>
+        <table align="center">
+            <tr>
+                <td>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                         Twit:
+                         <input type="text" placeholder="Enter Twit" name="twit" required><br><br>
+                         <button type="submit">Comment</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}
